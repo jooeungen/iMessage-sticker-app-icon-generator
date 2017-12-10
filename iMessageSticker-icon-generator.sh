@@ -27,9 +27,9 @@ set -e
 
 SRC_FILE_SQUARE="$1"
 SRC_FILE_RECTANGLE="$2"
-DST_PATH="$3"
+DST_PATH="./resource"
 
-VERSION=1.0.0
+VERSION=1.0.1
 
 info() {
      local green="\033[1;32m"
@@ -52,12 +52,10 @@ USAGE:
 DESCRIPTION:
     This script aim to generate ios app icons easier and simply.
 
-    square_srcfile - The source png image of square size. Preferably above 1024x1024
-    rectangle_scrfile - The source png image of rectangle size. Preferably above 1200x768
+    square_srcfile - The source png image of square size. For the best result, please use the image with size of 1024x1024
+    rectangle_scrfile - The source png image of rectangle size. For the best result, please use the image with size of 1024x768
 
-    dstpath - The destination path where the icons generate to.
-
-    This script is depend on ImageMagick. So you must install ImageMagick first
+    This script depends on ImageMagick. So you must install ImageMagick first
     You can use 'sudo brew install ImageMagick' to install it
 
 AUTHOR:
@@ -67,7 +65,7 @@ LICENSE:
     This script follow MIT license.
 
 EXAMPLE:
-    $0 square.png rectangle.png ~/project/resource
+    sh $0 ~/project/square.png ~/projet/rectangle.png
 EOF
 }
 
@@ -75,48 +73,52 @@ EOF
 command -v convert >/dev/null 2>&1 || { error >&2 "The ImageMagick is not installed. Please use brew to install it first."; exit -1; }
 
 # Check param
-if [ $# != 3 ];then
+if [ $# != 2 ];then
     usage
     exit -1
 fi
 
-# Check dst path whether exist.
-if [ ! -d "$DST_PATH" ];then
-    mkdir -p "$DST_PATH"
-fi
 
 # For the exact size of the icons, refer to: https://developer.apple.com/ios/human-interface-guidelines/extensions/messaging/
 
-info 'Generate iMessage Sticker IconImage...'
-convert "$SRC_FILE_SQUARE" -resize 58x58 "$DST_PATH/05ipad_settings_29x29_2x.png"
-convert "$SRC_FILE_SQUARE" -resize 58x58 "$DST_PATH/01iphone_settings_29x29_2x.png"
-convert "$SRC_FILE_SQUARE" -resize 87x87 "$DST_PATH/02iphone_settings_29x29_3x.png"
+info 'Generating iMessage Sticker IconImage...'
 
-convert "$SRC_FILE_RECTANGLE" -resize x40 "$DST_PATH/temp.png"
-convert "$DST_PATH/temp.png" -gravity Center -crop 54x40+0+0 "$DST_PATH/09messages_27x20_2x.png"
+convert "$SRC_FILE_SQUARE" -resize 58x58 "$DST_PATH/iphone_29x29_2x.png"
+convert "$SRC_FILE_SQUARE" -resize 87x87 "$DST_PATH/iphone_29x29_3x.png"
 
-convert "$SRC_FILE_RECTANGLE" -resize x60 "$DST_PATH/temp1.png"
-convert "$DST_PATH/temp1.png"  -gravity Center -crop 81x60+0+0 "$DST_PATH/10messages_27x20_3x.png"
+convert "$SRC_FILE_RECTANGLE" -resize x90 "$DST_PATH/temp1.png"
+convert "$DST_PATH/temp1.png"  -gravity Center -crop 120x90+0+0 "$DST_PATH/iphone_60x45_2x.png"
 
-convert "$SRC_FILE_RECTANGLE" -resize x48 "$DST_PATH/temp2.png"
-convert "$DST_PATH/temp2.png"  -gravity Center -crop 64x48+0+0 "$DST_PATH/12messages_32x24_2x.png"
+convert "$SRC_FILE_RECTANGLE" -resize x135 "$DST_PATH/temp2.png"
+convert "$DST_PATH/temp2.png"  -gravity Center -crop 180x135+0+0 "$DST_PATH/iphone_60x45_3x.png"
 
-convert "$SRC_FILE_RECTANGLE" -resize x72 "$DST_PATH/temp7.png"
-convert "$DST_PATH/temp7.png"  -gravity Center -crop 96x72+0+0 "$DST_PATH/13messages_32x24_3x.png"
+convert "$SRC_FILE_SQUARE" -resize 58x58 "$DST_PATH/ipad_29x29_2x.png"
 
 convert "$SRC_FILE_RECTANGLE" -resize x100 "$DST_PATH/temp3.png"
-convert "$DST_PATH/temp3.png"  -gravity Center -crop 134x100+0+0 "$DST_PATH/06messages_ipad_67x50_2x.png"
+convert "$DST_PATH/temp3.png"  -gravity Center -crop 134x100+0+0 "$DST_PATH/ipad_67x50_2x.png"
 
 convert "$SRC_FILE_RECTANGLE" -resize x110 "$DST_PATH/temp4.png"
-convert "$DST_PATH/temp4.png"  -gravity Center -crop 148x110+0+0 "$DST_PATH/07messages_ipadPro_74x55_2x.png"
+convert "$DST_PATH/temp4.png"  -gravity Center -crop 148x110+0+0 "$DST_PATH/ipad_74x55_2x.png"
 
-convert "$SRC_FILE_RECTANGLE" -resize x90 "$DST_PATH/temp5.png"
-convert "$DST_PATH/temp5.png"  -gravity Center -crop 120x90+0+0 "$DST_PATH/03messages_iphone_60x45_2x.png"
+convert "$SRC_FILE_SQUARE" -resize 1024x1024 "$DST_PATH/ios-marketing_1024x1024_1x.png"
 
-convert "$SRC_FILE_RECTANGLE" -resize x135 "$DST_PATH/temp6.png"
-convert "$DST_PATH/temp6.png"  -gravity Center -crop 180x135+0+0 "$DST_PATH/04messages_iphone_60x45_3x.png"
+convert "$SRC_FILE_RECTANGLE" -resize x40 "$DST_PATH/temp5.png"
+convert "$DST_PATH/temp5.png" -gravity Center -crop 54x40+0+0 "$DST_PATH/universal_27x20_2x.png"
+
+convert "$SRC_FILE_RECTANGLE" -resize x60 "$DST_PATH/temp6.png"
+convert "$DST_PATH/temp6.png"  -gravity Center -crop 81x60+0+0 "$DST_PATH/universal_27x20_3x.png"
+
+convert "$SRC_FILE_RECTANGLE" -resize x48 "$DST_PATH/temp7.png"
+convert "$DST_PATH/temp7.png"  -gravity Center -crop 64x48+0+0 "$DST_PATH/universal_32x24_2x.png"
+
+convert "$SRC_FILE_RECTANGLE" -resize x72 "$DST_PATH/temp8.png"
+convert "$DST_PATH/temp8.png"  -gravity Center -crop 96x72+0+0 "$DST_PATH/universal_32x24_3x.png"
+
+convert "$SRC_FILE_RECTANGLE" -resize 1024x768 "$DST_PATH/ios-marketing_1024x768_1x.png"
+
+
 
 rm $DST_PATH/temp*.png
 
 
-info 'Generate Done.'
+info 'DONE'
