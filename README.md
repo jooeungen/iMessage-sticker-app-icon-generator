@@ -30,7 +30,7 @@ $ sh iMessageSticker-icon-generator.sh ~/project/square.png ~/projet/rectangle.p
 The preferable size of the input source images is as follows.
 
 * Square Image : 1024x1024 pixel
-* Rectangle Image : 1024x768 pixel 
+* Rectangle Image : 1200x768 pixel
 
 After running the script, there will be 11 resulting image files and a Content.json file in the resource folder. By simply dragging all the images and json file to ```[YOUR XCODE PROJECT PATH]/StickerPackExtension/Stickers.xcstickers/iMessage App Icon.stickersiconset```.
 

@@ -53,7 +53,7 @@ DESCRIPTION:
     This script aim to generate ios app icons easier and simply.
 
     square_srcfile - The source png image of square size. For the best result, please use the image with size of 1024x1024
-    rectangle_scrfile - The source png image of rectangle size. For the best result, please use the image with size of 1024x768
+    rectangle_scrfile - The source png image of rectangle size. For the best result, please use the image with size of 1200x768
 
     This script depends on ImageMagick. So you must install ImageMagick first
     You can use 'sudo brew install ImageMagick' to install it
@@ -114,7 +114,8 @@ convert "$DST_PATH/temp7.png"  -gravity Center -crop 64x48+0+0 "$DST_PATH/univer
 convert "$SRC_FILE_RECTANGLE" -resize x72 "$DST_PATH/temp8.png"
 convert "$DST_PATH/temp8.png"  -gravity Center -crop 96x72+0+0 "$DST_PATH/universal_32x24_3x.png"
 
-convert "$SRC_FILE_RECTANGLE" -resize 1024x768 "$DST_PATH/ios-marketing_1024x768_1x.png"
+convert "$SRC_FILE_RECTANGLE" -resize x768 "$DST_PATH/temp9.png"
+convert "$DST_PATH/temp9.png"  -gravity Center -crop 1024x768+0+0 "$DST_PATH/ios-marketing_1024x768_1x.png"
 
 
 
